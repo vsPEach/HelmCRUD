@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crud-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crud-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: crud-service
+    spec:
+      containers:
+      - name: crud-service
+        image: vspeach/crud-service:4.0
+        imagePullPolicy: Always
+        env: 
+          - name: CONFIG_PATH
+            value: "/etc/configs/config.json"
+        volumeMounts: 
+          - name: service-config
+            mountPath: "/etc/configs"
+            readOnly: true
+        readinessProbe:
+          httpGet:
+            port: 8000
+            path: /health
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          successThreshold: 2
+          timeoutSeconds: 1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8000
+      volumes:
+        - name: service-config
+          configMap:
+            name: service-config
