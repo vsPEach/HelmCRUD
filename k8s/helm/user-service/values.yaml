@@ -1,0 +1,55 @@
+# Default values for user-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: vspeach/crud-service
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "4.0"
+
+imagePullSecrets: []
+nameOverride: "user-service"
+fullnameOverride: "user-service"
+
+podLabels: 
+  app: user-service
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+
+  hosts:
+    - host: localhost
+      paths:
+        - path: /
+          pathType: Prefix
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
+
+env: 
+  name: CONFIG_PATH
+  value: "/etc/configs/config.json"
+
+volumes: 
+  - name: service-config
+    configMap:
+      name: service-config
+
+volumeMounts: 
+  - name: service-config
+    mountPath: "/etc/configs"
+
+
