@@ -26,10 +26,8 @@ spec:
               value: {{ .Values.env.value }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
-          readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}

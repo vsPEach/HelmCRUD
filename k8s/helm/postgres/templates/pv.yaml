@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-volume
+  labels:
+    {{- with .Values.podLabels }}
+        type: local
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+spec:
+  storageClassName: {{ .Values.storage.storageClassName }}
+  capacity:
+    storage: {{ .Values.storage.storageCapacity}}
+  accessModes:
+    - {{ .Values.storage.accessMode }}
+  hostPath:
+    path: /data/postgresql
+

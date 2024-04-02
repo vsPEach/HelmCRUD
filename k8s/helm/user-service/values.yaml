@@ -6,8 +6,7 @@ replicaCount: 1
 
 image:
   repository: vspeach/crud-service
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  pullPolicy: Always
   tag: "4.0"
 
 imagePullSecrets: []
@@ -19,7 +18,8 @@ podLabels:
 
 service:
   type: ClusterIP
-  port: 8000
+  port: 80
+  targetPort: 8000
 
 ingress:
   enabled: true
@@ -32,12 +32,6 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
-
 
 env: 
   name: CONFIG_PATH
