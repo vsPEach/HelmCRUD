@@ -7,5 +7,5 @@ data:
     {
       "host": "0.0.0.0",
       "port": "8000",
-      "dsn": "host=10.105.167.213 port=5432 user=postgres password=postgres dbname=users sslmode=disable"
+      "dsn": "host=postgres.default.svc.cluster.local port=5432 user=postgres password=postgres dbname=users sslmode=disable"
     }

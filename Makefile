@@ -4,10 +4,10 @@ run-kube:
 	minikube start
 
 deploy-pg: run-kube
-	helm install my-postgres ${PWD}/k8s/helm/postgres
+	helm upgrade --install my-postgres ${PWD}/k8s/helm/postgres
 
-deploy-service: deploy-pg
-	helm install my-app  ${PWD}/k8s/helm/user-service
+deploy-service:
+	helm upgrade --install my-app  ${PWD}/k8s/helm/user-service
 
 up: 
 	docker compose -f $(COMPOSE_PATH) up -d --build --force-recreate
