@@ -57,6 +57,7 @@ func Run(storage *storage.Storage, config *config.Config) error {
 
 		return c.JSON(user)
 	})
+
 	app.Put("/user/:user_id", func(c *fiber.Ctx) error {
 		var user models.User
 		idParam, ok := c.AllParams()["user_id"]
@@ -85,6 +86,7 @@ func Run(storage *storage.Storage, config *config.Config) error {
 			"rawAffected": raw,
 		})
 	})
+
 	app.Delete("/user/:user_id", func(c *fiber.Ctx) error {
 		idParam, ok := c.AllParams()["user_id"]
 		if !ok {

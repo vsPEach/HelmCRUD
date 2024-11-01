@@ -15,4 +15,8 @@ up:
 down:
 	docker compose -f $(COMPOSE_PATH) down
 
-.PHONY: up down run-kube deploy-pg deploy-service
+kube-proxy:
+	minikube addons enable ingress
+	minikube tunnel
+
+.PHONY: up down run-kube deploy-pg deploy-service kube-proxy
